@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SSoT"
 include(":app")
- 
+include(":core:network")

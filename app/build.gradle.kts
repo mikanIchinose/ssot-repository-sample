@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -51,4 +53,7 @@ dependencies {
     implementation(libs.androidx.material3.adaptive.navigation.suite)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // di
+    implementation(libs.hiltAndroid)
+    ksp(libs.hiltCompiler)
 }

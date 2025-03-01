@@ -1,0 +1,7 @@
+query MyAccountQuery {
+    user(login: "mikanIchinose") {
+        starredRepositories {
+            totalCount
+        }
+    }
+}

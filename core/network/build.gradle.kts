@@ -44,6 +44,7 @@ dependencies {
 apollo {
     service("github") {
         packageName = "com.github.mikan.ssot.sample.core.network"
+        generateApolloMetadata = true
         introspection {
             val secretProperties = Properties()
             secretProperties.load(rootProject.file("local.properties").inputStream())

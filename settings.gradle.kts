@@ -24,3 +24,4 @@ rootProject.name = "SSoT"
 include(":app")
 include(":core:network")
 include(":feature:myaccount")
+include(":core:designsystem")

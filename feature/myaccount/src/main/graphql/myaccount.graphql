@@ -1,5 +1,7 @@
 query MyAccountQuery {
     user(login: "mikanIchinose") {
+        name
+        avatarUrl
         starredRepositories {
             totalCount
         }

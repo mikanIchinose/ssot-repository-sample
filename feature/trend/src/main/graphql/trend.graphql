@@ -1,0 +1,29 @@
+query TrendQuery {
+    search(query: "stars:>10000", type: REPOSITORY, first: 50) {
+        edges {
+            node {
+                ... on Repository {
+                    id
+                    name
+                    viewerHasStarred
+                }
+            }
+        }
+    }
+}
+
+mutation AddStarMutation($input: AddStarInput!) {
+    addStar(input: $input) {
+        starrable {
+            viewerHasStarred
+        }
+    }
+}
+
+mutation RemoveStarMutation($input: RemoveStarInput!) {
+    removeStar(input: $input) {
+        starrable {
+            viewerHasStarred
+        }
+    }
+}

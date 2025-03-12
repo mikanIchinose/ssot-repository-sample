@@ -1,15 +1,17 @@
 package com.github.mikan.ssot.sample.trend.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.mikan.ssot.sample.designsystem.SSoTTheme
@@ -37,20 +40,17 @@ fun TrendSection(
     onClickRemove: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        uiState.content?.search?.edges?.mapNotNull { it?.node?.onRepository }?.let { edges ->
-            TrendSection(
-                trends = edges,
-                onClick = onClick,
-                onClickAdd = onClickAdd,
-                onClickRemove = onClickRemove,
-            )
-        }
-        uiState.error?.message?.let {
-            Text("Error: $it")
-        }
+    uiState.content?.search?.edges?.mapNotNull { it?.node?.onRepository }?.let { edges ->
+        TrendSection(
+            trends = edges,
+            onClick = onClick,
+            onClickAdd = onClickAdd,
+            onClickRemove = onClickRemove,
+            modifier = modifier,
+        )
+    }
+    uiState.error?.message?.let {
+        Text("Error: $it")
     }
 }
 
@@ -66,13 +66,27 @@ private fun TrendSection(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = modifier,
     ) {
-        items(
+        item { Spacer(Modifier.height(8.dp)) }
+        itemsIndexed(
             items = trends,
-            key = { it.id },
-        ) { repo ->
+            key = { _, repo -> repo.id },
+        ) { index, repo ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.secondary),
+                ) {
+                    Text(
+                        text = "${index + 1}",
+                        color = MaterialTheme.colorScheme.onSecondary,
+                    )
+                }
                 Card(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -88,7 +102,6 @@ private fun TrendSection(
                             .padding(horizontal = 8.dp, vertical = 32.dp),
                     )
                 }
-                Spacer(Modifier.width(8.dp))
 
                 var hasStarred by remember { mutableStateOf(repo.viewerHasStarred) }
                 LaunchedEffect(repo.viewerHasStarred) {
@@ -108,6 +121,7 @@ private fun TrendSection(
                 )
             }
         }
+        item { Spacer(Modifier.height(8.dp)) }
     }
 }
 

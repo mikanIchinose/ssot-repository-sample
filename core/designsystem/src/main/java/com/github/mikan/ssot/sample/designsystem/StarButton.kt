@@ -1,7 +1,7 @@
 package com.github.mikan.ssot.sample.designsystem
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
@@ -13,15 +13,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun StarButton(
@@ -45,31 +44,29 @@ fun StarButton(
         },
         label = "contentColor"
     )
-    val angle by animateFloatAsState(
-        targetValue = if (hasStarred) {
-            360f
-        } else {
-            0f
-        },
-        animationSpec = tween(200),
-        label = "angle"
-    )
-    var scale by remember { mutableFloatStateOf(1f) }
+    val angle = remember { Animatable(0f) }
+    val scale = remember { Animatable(1f) }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(hasStarred) {
-        scale = 0.8f
-        delay(100)
-        scale = 1f
+        angle.animateTo(
+            targetValue = if (hasStarred) {
+                360f
+            } else {
+                0f
+            },
+            animationSpec = tween(200),
+        )
     }
 
-    val animatedScale by animateFloatAsState(
-        targetValue = scale,
-        animationSpec = tween(durationMillis = 200),
-        label = "animatedScale"
-    )
-
     IconButton(
-        onClick,
+        onClick = {
+            scope.launch {
+                scale.animateTo(0.8f)
+                scale.animateTo(1f)
+            }
+            onClick()
+        },
         colors = IconButtonDefaults.iconButtonColors(
             containerColor = containerColor,
             contentColor = contentColor,
@@ -78,9 +75,9 @@ fun StarButton(
     ) {
         Box(
             modifier = Modifier
-                .scale(animatedScale)
+                .scale(scale.value)
                 .graphicsLayer {
-                    rotationZ = angle
+                    rotationZ = angle.value
                 },
         ) {
             if (hasStarred) {

@@ -31,6 +31,10 @@ class TrendViewModel @Inject constructor(
     suspend fun removeStar(repoId: String) {
         trendApolloClientWrapper.removeStar(repoId)
     }
+
+    suspend fun refresh() {
+        trendApolloClientWrapper.refresh()
+    }
 }
 
 data class TrendUiState(

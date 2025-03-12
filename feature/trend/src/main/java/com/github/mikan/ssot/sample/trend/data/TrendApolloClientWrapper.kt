@@ -38,4 +38,8 @@ class TrendApolloClientWrapper @Inject internal constructor(
         apolloClient.mutation(mutation).execute()
         refreshTrigger.refresh()
     }
+
+    suspend fun refresh() {
+        refreshTrigger.refresh()
+    }
 }

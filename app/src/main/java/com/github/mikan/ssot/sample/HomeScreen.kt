@@ -10,6 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.mikan.ssot.sample.myaccount.ui.MyAccountSection
 import com.github.mikan.ssot.sample.myaccount.ui.MyAccountUiState
@@ -34,6 +36,14 @@ fun HomeScreen(
     val myAccountUiState by myAccountViewModel.uiState.collectAsStateWithLifecycle()
     val trendUiState by trendViewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
+
+    LifecycleEventEffect(Lifecycle.Event.ON_START) {
+        scope.launch {
+            myAccountViewModel.refresh()
+            trendViewModel.refresh()
+        }
+    }
+
     HomeScreen(
         myAccountUiState = myAccountUiState,
         trendUiState = trendUiState,

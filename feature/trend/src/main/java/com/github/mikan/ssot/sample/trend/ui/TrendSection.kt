@@ -32,7 +32,7 @@ import com.github.mikan.ssot.sample.trend.TrendQuery
 @Composable
 fun TrendSection(
     uiState: TrendUiState,
-    onClick: () -> Unit,
+    onClick: (owner: String, name: String) -> Unit,
     onClickAdd: (String) -> Unit,
     onClickRemove: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -57,7 +57,7 @@ fun TrendSection(
 @Composable
 private fun TrendSection(
     trends: List<TrendQuery.OnRepository>,
-    onClick: () -> Unit,
+    onClick: (owner: String, name: String) -> Unit,
     onClickAdd: (String) -> Unit,
     onClickRemove: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -77,7 +77,9 @@ private fun TrendSection(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
                     ),
-                    onClick = onClick,
+                    onClick = {
+                        onClick(repo.owner.login, repo.name)
+                    },
                     modifier = Modifier.weight(1f),
                 ) {
                     Text(
@@ -121,15 +123,17 @@ private fun TrendSectionPreview() {
                     TrendQuery.OnRepository(
                         id = "1",
                         name = "Repo 1",
+                        owner = TrendQuery.Owner("Owner 1"),
                         viewerHasStarred = false
                     ),
                     TrendQuery.OnRepository(
                         id = "2",
                         name = "Repo 2",
+                        owner = TrendQuery.Owner("Owner 2"),
                         viewerHasStarred = true
                     )
                 ),
-                onClick = {},
+                onClick = { _, _ -> },
                 onClickAdd = {},
                 onClickRemove = {},
                 modifier = Modifier.padding(16.dp),

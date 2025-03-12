@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -21,6 +22,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -52,9 +61,18 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material3.adaptive.navigation.suite)
+    implementation(libs.androidxNavigationCompose)
+    implementation(libs.androidxHiltNavigationCompose)
+    implementation(libs.kotlinxSerializationJson)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // di
     implementation(libs.hiltAndroid)
     ksp(libs.hiltCompiler)
+    // projects
+    implementation(projects.core.network)
+    implementation(projects.core.designsystem)
+    implementation(projects.feature.myaccount)
+    implementation(projects.feature.trend)
+    implementation(projects.feature.repositorydetail)
 }

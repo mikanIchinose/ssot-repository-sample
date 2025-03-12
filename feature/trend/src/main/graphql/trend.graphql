@@ -5,6 +5,9 @@ query TrendQuery {
                 ... on Repository {
                     id
                     name
+                    owner {
+                        login
+                    }
                     viewerHasStarred
                 }
             }

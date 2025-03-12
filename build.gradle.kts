@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.hiltAndroid) apply false
+    alias(libs.plugins.serialization) apply false
     alias(libs.plugins.apollo) apply false
     alias(libs.plugins.secretGradlePlugin) apply false
 }

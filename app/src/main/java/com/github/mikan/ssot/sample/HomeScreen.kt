@@ -19,6 +19,10 @@ import com.github.mikan.ssot.sample.trend.ui.TrendSection
 import com.github.mikan.ssot.sample.trend.ui.TrendUiState
 import com.github.mikan.ssot.sample.trend.ui.TrendViewModel
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object HomeRoute
 
 @Composable
 fun HomeScreen(

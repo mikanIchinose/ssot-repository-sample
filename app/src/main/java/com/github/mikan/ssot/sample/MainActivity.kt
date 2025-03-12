@@ -20,7 +20,6 @@ import com.github.mikan.ssot.sample.repositorydetail.ui.RepositoryDetailRoute
 import com.github.mikan.ssot.sample.repositorydetail.ui.RepositoryDetailScreen
 import com.github.mikan.ssot.sample.repositorydetail.ui.RepositoryDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -63,6 +62,3 @@ fun SSoTApp() {
         )
     }
 }
-
-@Serializable
-data object HomeRoute

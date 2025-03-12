@@ -1,0 +1,32 @@
+query RepositoryDetailQuery($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+        id
+        nameWithOwner
+        description
+        homepageUrl
+        stargazerCount
+        viewerHasStarred
+        issues {
+            totalCount
+        }
+        pullRequests {
+            totalCount
+        }
+    }
+}
+
+mutation AddStarMutation($input: AddStarInput!) {
+    addStar(input: $input) {
+        starrable {
+            viewerHasStarred
+        }
+    }
+}
+
+mutation RemoveStarMutation($input: RemoveStarInput!) {
+    removeStar(input: $input) {
+        starrable {
+            viewerHasStarred
+        }
+    }
+}

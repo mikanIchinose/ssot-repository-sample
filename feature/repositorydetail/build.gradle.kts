@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -34,6 +35,9 @@ android {
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidxLifecycleViewModelCompose)
+    implementation(libs.androidxNavigationCompose)
+    implementation(libs.androidxHiltNavigationCompose)
+    implementation(libs.kotlinxSerializationJson)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)

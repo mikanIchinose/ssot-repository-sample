@@ -67,7 +67,8 @@ fun SSoTApp() {
                 enterTransition = {
                     fadeIn(
                         animationSpec = tween(
-                            300, easing = LinearEasing
+                            300,
+                            easing = LinearEasing,
                         )
                     ) + slideIntoContainer(
                         animationSpec = tween(300, easing = EaseIn),
@@ -77,7 +78,8 @@ fun SSoTApp() {
                 exitTransition = {
                     fadeOut(
                         animationSpec = tween(
-                            300, easing = LinearEasing
+                            300,
+                            easing = LinearEasing,
                         )
                     ) + slideOutOfContainer(
                         animationSpec = tween(300, easing = EaseOut),

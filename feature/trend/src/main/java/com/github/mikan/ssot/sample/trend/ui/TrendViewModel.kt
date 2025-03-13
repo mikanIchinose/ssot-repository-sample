@@ -3,7 +3,7 @@ package com.github.mikan.ssot.sample.trend.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikan.ssot.sample.trend.TrendQuery
-import com.github.mikan.ssot.sample.trend.data.TrendApolloClientWrapper
+import com.github.mikan.ssot.sample.trend.data.TrendRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TrendViewModel @Inject constructor(
-    private val trendApolloClientWrapper: TrendApolloClientWrapper
+    private val trendRepository: TrendRepository
 ) : ViewModel() {
-    val uiState = trendApolloClientWrapper.fetchTrendData()
+    val uiState = trendRepository.fetchTrendData()
         .map { TrendUiState(it, null) }
         .catch { emit(TrendUiState(null, Error(it))) }
         .stateIn(
@@ -25,15 +25,15 @@ class TrendViewModel @Inject constructor(
         )
 
     suspend fun addStar(repoId: String) {
-        trendApolloClientWrapper.addStar(repoId)
+        trendRepository.addStar(repoId)
     }
 
     suspend fun removeStar(repoId: String) {
-        trendApolloClientWrapper.removeStar(repoId)
+        trendRepository.removeStar(repoId)
     }
 
     suspend fun refresh() {
-        trendApolloClientWrapper.refresh()
+        trendRepository.refresh()
     }
 }
 

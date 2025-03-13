@@ -13,17 +13,22 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrendApolloClientWrapper @Inject internal constructor(
+class TrendRepository @Inject internal constructor(
     private val apolloClient: ApolloClient,
     private val refreshTrigger: RefreshTrigger,
 ) {
+    private var cache: TrendQuery.Data? = null
     fun fetchTrendData(): Flow<TrendQuery.Data> = flow {
-        val data = apolloClient.query(TrendQuery()).execute().dataAssertNoErrors
-        emit(data)
+        cache?.let { emit(it) } ?: run {
+            val data = apolloClient.query(TrendQuery()).execute().dataAssertNoErrors
+            cache = data
+            emit(data)
+        }
 
         refreshTrigger.refreshEvent.collect {
-            val newData = apolloClient.query(TrendQuery()).execute().dataAssertNoErrors
-            emit(newData)
+            val data = apolloClient.query(TrendQuery()).execute().dataAssertNoErrors
+            cache = data
+            emit(data)
         }
     }
 

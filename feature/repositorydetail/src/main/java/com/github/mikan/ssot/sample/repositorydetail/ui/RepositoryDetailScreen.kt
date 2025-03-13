@@ -1,5 +1,6 @@
 package com.github.mikan.ssot.sample.repositorydetail.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,16 +37,17 @@ fun RepositoryDetailScreen(
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    uiState.content?.repository?.let {
-        RepositoryDetailScreen(
-            repository = it,
-            onClickAdd = viewModel::addStar,
-            onClickRemove = viewModel::removeStar,
-            modifier = modifier
-        )
-    }
-    uiState.error?.message?.let {
-        Text("Error: $it")
+    Box(modifier = modifier) {
+        uiState.content?.repository?.let {
+            RepositoryDetailScreen(
+                repository = it,
+                onClickAdd = viewModel::addStar,
+                onClickRemove = viewModel::removeStar,
+            )
+        }
+        uiState.error?.message?.let {
+            Text("Error: $it")
+        }
     }
 }
 

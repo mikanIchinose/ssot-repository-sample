@@ -34,15 +34,22 @@ data class RepositoryDetailRoute(
 @Composable
 fun RepositoryDetailScreen(
     viewModel: RepositoryDetailViewModel,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Box(modifier = modifier) {
-        uiState.content?.repository?.let {
+        uiState.content?.repository?.let { repository ->
             RepositoryDetailScreen(
-                repository = it,
-                onClickAdd = viewModel::addStar,
-                onClickRemove = viewModel::removeStar,
+                repository = repository,
+                onClickAdd = {
+                    viewModel.addStar(it)
+                    onRefresh()
+                },
+                onClickRemove = {
+                    viewModel.removeStar(it)
+                    onRefresh()
+                },
             )
         }
         uiState.error?.message?.let {
